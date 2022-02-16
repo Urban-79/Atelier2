@@ -20,9 +20,7 @@ public class Player extends Thread {
         _id = id;
         _sock = sock;
     }
-    public boolean isReady() {
-        return _choice!=null;
-    }
+    public boolean isReady() {return _choice!=null;}
     public int getScore() {
         return _score;
     }
@@ -46,5 +44,7 @@ public class Player extends Thread {
             _game.onLeave(_id);
         }
     }
+
+    public String get_Choice() {return this._choice;}
 }
 

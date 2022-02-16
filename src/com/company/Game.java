@@ -24,6 +24,44 @@ public class Game {
         players.add(null);
         return players.size();
     }
+
+    private int findWinner() throws InterruptedException {
+        String choix1 = players.get(1).get_Choice();
+        String choix2 = players.get(2).get_Choice();
+        int winnerId = 0;
+
+        if(choix1.equals("P")){
+            System.out.println("Le player 1 a joué pierre");
+        }else if(choix1.equals("F")){
+            System.out.println("Le player 1 a joué feuille");
+        }else if(choix1.equals("C")){
+            System.out.println("Le player 1 a joué ciseaux");
+        }
+
+        if(choix2.equals("P")){
+            System.out.println("Le player 2 a joué pierre");
+        }else if(choix2.equals("F")){
+            System.out.println("Le player 2 a joué feuille");
+        }else if(choix2.equals("C")){
+            System.out.println("Le player 2 a joué ciseaux");
+        }
+
+        if(choix1.equals("P") && choix2.equals("C")){
+            winnerId = 1;
+        }else if (choix1.equals("F") && choix2.equals("P")){
+            winnerId = 1;
+        }else if (choix1.equals("C") && choix2.equals("F")){
+            winnerId = 1;
+        }else if(choix2.equals("P") && choix1.equals("C")){
+            winnerId = 2;
+        }else if (choix2.equals("F") && choix1.equals("P")){
+            winnerId = 2;
+        }else if (choix2.equals("C") && choix1.equals("F")) {
+            winnerId = 2;
+        }
+        return winnerId;
+    }
+
     public void RegisterPlayer(Socket sock) {
         int id = findPlayerId();
         Player player = new Player(this, id, sock);
@@ -35,8 +73,7 @@ public class Game {
     public synchronized int waitpfc() throws InterruptedException {
         if(allPlayersReady()) {
             notifyAll();
-            is_head = rand.nextInt(2) != 0;
-            System.out.printf("All %d played, got %s\n", players.size(), is_head ? "HEAD" : "TAIL");
+            is_head = findWinner();
         }
         else {
             wait();
@@ -44,7 +81,7 @@ public class Game {
         return is_head;
     }
     public void write(DataOutputStream writer) throws IOException {
-        writer.writeBoolean(is_head);
+        writer.writeInt(is_head);
         writer.writeInt(players.size());
         for (Player player : players) {
             writer.writeInt(player == null ? -1 : player.getScore());

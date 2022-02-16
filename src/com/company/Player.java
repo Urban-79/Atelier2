@@ -12,7 +12,7 @@ public class Player extends Thread {
     private final Socket _sock;
     private final int _id;
     private final Game _game;
-    private String _choice;
+    private Character _choice;
     private int _score = 0;
 
     public Player(Game game, int id, Socket sock){
@@ -32,9 +32,16 @@ public class Player extends Thread {
 
             writer.writeInt(_id);
             writer.flush();
-            for (; ; ) {
+            for (; ; )
+            {
+                _choice = reader.readChar();
+                System.out.printf("- TEST DE ID"+ _id);
+                System.out.printf("- TEST DE game"+ _game.waitpfc());
                 if (_id == _game.waitpfc()) {
+
                     _score++;
+                    System.out.printf("- Player %d played\n", _choice);
+
                 }
                 _choice = null;
                 _game.write(writer);
@@ -45,6 +52,6 @@ public class Player extends Thread {
         }
     }
 
-    public String get_Choice() {return this._choice;}
+    public Character get_Choice() {return this._choice;}
 }
 

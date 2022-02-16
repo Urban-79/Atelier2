@@ -26,10 +26,11 @@ public class Game {
     }
 
     private int findWinner() throws InterruptedException {
-        String choix1 = players.get(1).get_Choice();
-        String choix2 = players.get(2).get_Choice();
-        int winnerId = 0;
+        Character choix1 = players.get(0).get_Choice();
+        Character choix2 = players.get(1).get_Choice();
 
+        int winnerId = 0;
+        System.out.println("WIN DU J1");
         if(choix1.equals("P")){
             System.out.println("Le player 1 a joué pierre");
         }else if(choix1.equals("F")){

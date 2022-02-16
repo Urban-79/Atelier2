@@ -6,15 +6,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import static java.lang.Integer.parseInt;
+
 public class Player extends Thread {
     private final Socket _sock;
     private final int _id;
     private final Game _game;
-    private Boolean _choice;
+    private String _choice;
     private int _score = 0;
 
     public Player(Game game, int id, Socket sock){
-        this._choice = null;
         _game = game;
         _id = id;
         _sock = sock;
@@ -34,13 +35,12 @@ public class Player extends Thread {
             writer.writeInt(_id);
             writer.flush();
             for (; ; ) {
-                _choice = reader.readBoolean();
-                if (_choice == _game.waitHeadOrTail()) {
+                if (_id == _game.waitpfc()) {
                     _score++;
                 }
                 _choice = null;
                 _game.write(writer);
-            }
+                }
         }
         catch(InterruptedException | IOException e){
             _game.onLeave(_id);

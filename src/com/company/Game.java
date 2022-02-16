@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class Game {
     private final ArrayList<Player> players = new ArrayList<>();
-    private boolean is_head = false;
-    private final Random rand = new Random();
+    private int is_head = 0;
+    //private final Random rand = new Random();
 
     private boolean allPlayersReady() {
         return players.stream().allMatch(p -> (p == null || p.isReady()));
@@ -32,7 +32,7 @@ public class Game {
         players.set(id-1, player);
         player.start();
     }
-    public synchronized boolean waitHeadOrTail() throws InterruptedException {
+    public synchronized int waitpfc() throws InterruptedException {
         if(allPlayersReady()) {
             notifyAll();
             is_head = rand.nextInt(2) != 0;

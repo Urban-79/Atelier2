@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 
 public class Main {
 
-    private final static int PORT = 0x2BAD;
+    private final static int PORT = 0x2BAE;
 
     public static void main(String[] args) {
         Game game = new Game();
